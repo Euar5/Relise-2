@@ -3,12 +3,71 @@ import random
 
 pygame.init()
 
-# Екрану
+# Розмів екрану 1
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("flappy Bird")
+
+# Константа для кольорів першого вікна
+WHITE = (255, 255, 255)
+GREEN = (0, 200, 0)
+BLUE = (50, 150, 255)
+BLACK = (0, 0, 0,)
+HOVER_BLUE = (100, 160, 210)
+
+# Шрифти
+title_font = pygame.font.SysFont(name="Arial", size=60)
+desc_font = pygame.font.SysFont(name="Arial", size=30)
+button_font = pygame.font.SysFont(name="Arial", size=36)
+
+button_text = button_font.render("Почати гру", True, WHITE)
+button_width, button_height = 250, 60
+button_x = WIDTH // 2 - button_width // 2
+button_y = 400
+button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+
+#тексти
+title_text = title_font.render('Назва гри', True, WHITE)
+desc_text = desc_font.render('Натискай пробіл і уникай труб', True, WHITE ) 
+
+# Початковий екран
+first_screen = True
+while first_screen:
+    screen.fill(BLACK)
+
+    # Показуємо назву та опис
+    screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 150))
+    screen.blit(desc_text, (WIDTH // 2 - desc_text.get_width() // 2, 250))
+
+    # Перевірка наведення миші
+    mouse_pos = pygame.mouse.get_pos()
+    if button_rect.collidepoint(mouse_pos):
+        pygame.draw.rect(screen, HOVER_BLUE, button_rect)
+    else:
+        pygame.draw.rect(screen, BLUE, button_rect)
+
+    # Показуємо кнопку
+    screen.blit(button_text, (
+        button_x + (button_width - button_text.get_width()) // 2,
+        button_y + (button_height - button_text.get_height()) // 2
+    ))
+
+    pygame.display.flip()
+
+    # Обробка подій
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if button_rect.collidepoint(event.pos):
+                first_screen = False
+
+# Розмів екрану 2
 width, height = 800, 600
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Flappy Bird")
 
-# Кольори
+# Константа для кольорів другого вікна 
 WHITE = (255, 255, 255)
 GREEN = (0, 200, 0)
 BLUE = (50, 150, 255)
@@ -38,7 +97,7 @@ while running:
     screen.fill(BLUE)
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT: 
             running = False
 
         # Стрибок пташки
@@ -78,3 +137,4 @@ while running:
     clock.tick(60)
 
 pygame.quit()
+ 
