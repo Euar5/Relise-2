@@ -3,8 +3,11 @@ import random
 
 pygame.init()
 
-# Розмів екрану 1
-WIDTH, HEIGHT = 800, 600
+#музика
+pygame.mixer.init()
+pygame.mixer.music.load('my song.mp3')
+# Розмір екрану 1
+WIDTH, HEIGHT = 1080, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("flappy Bird")
 
@@ -27,7 +30,7 @@ button_y = 400
 button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
 
 #тексти
-title_text = title_font.render('Назва гри', True, WHITE)
+title_text = title_font.render('flappy Bird', True, WHITE)
 desc_text = desc_font.render('Натискай пробіл і уникай труб', True, WHITE ) 
 
 # Початковий екран
@@ -62,10 +65,13 @@ while first_screen:
             if button_rect.collidepoint(event.pos):
                 first_screen = False
 
-# Розмів екрану 2
-width, height = 800, 600
+# Розмір екрану 2
+width, height = 1080, 600
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Flappy Bird")
+
+background_image = pygame.transform.scale(pygame.image.load('sky.png'), (WIDTH, HEIGHT))
+
 
 # Константа для кольорів другого вікна 
 WHITE = (255, 255, 255)
@@ -93,8 +99,9 @@ font = pygame.font.SysFont(None, 48)
 score = 0
 
 running = True
+pygame.mixer.music.play()
 while running:
-    screen.fill(BLUE)
+    screen.blit(background_image, dest=(0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
