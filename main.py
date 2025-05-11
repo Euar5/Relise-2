@@ -71,7 +71,7 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Flappy Bird")
 
 background_image = pygame.transform.scale(pygame.image.load('sky.png'), (WIDTH, HEIGHT))
-
+bird_image = pygame.transform.scale(pygame.image.load("bird_image.png"), (100, 100))
 
 # Константа для кольорів другого вікна 
 WHITE = (255, 255, 255)
@@ -98,14 +98,19 @@ font = pygame.font.SysFont(None, 48)
 
 score = 0
 
-running = True
+running1 = True
 pygame.mixer.music.play()
-while running:
+while running1:
+
+
+    if score > 5 :
+        running1 = False
+
     screen.blit(background_image, dest=(0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
-            running = False
+            running1 = False
 
         # Стрибок пташки
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -124,15 +129,15 @@ while running:
 
     # Колізія
     if (pipe_x < bird_x < pipe_x + pipe_width) and not (pipe_height < bird_y < pipe_height + pipe_gap):
-        running = False
+        running1 = False
 
     if bird_y > height or bird_y < 0:
-        running = False
+        running1 = False
 
     # Малювання пташки
-    pygame.draw.circle(screen, WHITE, (bird_x, int(bird_y)), bird_radius)
+    screen.blit(bird_image, (bird_x, int(bird_y)))
 
-    # Малювання труб
+    # Малювання труб 
     pygame.draw.rect(screen, GREEN, (pipe_x, 0, pipe_width, pipe_height))
     pygame.draw.rect(screen, GREEN, (pipe_x, pipe_height + pipe_gap, pipe_width, height))
 
